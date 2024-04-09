@@ -97,7 +97,7 @@ def option_b(data, route):
 """
 searches and finds all students in specified grade level
 """
-def option_g(data, grade, high_low):
+def option_g(data, grade, high_low = None):
 
     desired_students = []
     for entry in data:
@@ -105,31 +105,35 @@ def option_g(data, grade, high_low):
             desired_students.append(entry)
 
     if high_low == "H":
-        highest = 0
+        highest = float(desired_students[0]['GPA'])
+        target_student = desired_students[0]
         for student in desired_students:
-            if student['GPA'] > highest:
-                highest = student['GPA']
+            if float(student['GPA']) > highest:
+                highest = float(student['GPA'])
+                target_student = student
         if student['Bus'] == "0":
-            print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} has " +
-                  f"the highest GPA being {student['GPA']}. They don't take the bus and their teacher is " +
-                  f"{student['TLastName'].capitalize()} {student['TFirstName'].capitalize()}")
+            print(f"{target_student['StLastName'].capitalize()} {target_student['StFirstName'].capitalize()} has " +
+                  f"the highest GPA being {target_student['GPA']}. They don't take the bus and their teacher is " +
+                  f"{target_student['TLastName'].capitalize()} {target_student['TFirstName'].capitalize()}")
         else:
-            print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} has " +
-                  f"the highest GPA being {student['GPA']}. They take bus route {student['Bus']} and their teacher is " +
-                  f"{student['TLastName'].capitalize()} {student['TFirstName'].capitalize()}")
+            print(f"{target_student['StLastName'].capitalize()} {target_student['StFirstName'].capitalize()} has " +
+                  f"the highest GPA being {target_student['GPA']}. They take bus route {target_student['Bus']} and their teacher is " +
+                  f"{target_student['TLastName'].capitalize()} {target_student['TFirstName'].capitalize()}")
     elif high_low == "L":
-        lowest = 5
+        lowest = float(desired_students[0]['GPA'])
+        target_student = desired_students[0]
         for student in desired_students:
-            if student['GPA'] < lowest:
-                highest = student['GPA']
+            if float(student['GPA']) < lowest:
+                highest = float(student['GPA'])
+                target_student = student
         if student['Bus'] == "0":
-            print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} has " +
-                  f"the lowest GPA being {student['GPA']}. They don't take the bus and their teacher is " +
-                  f"{student['TLastName'].capitalize()} {student['TFirstName'].capitalize()}")
+            print(f"{target_student['StLastName'].capitalize()} {target_student['StFirstName'].capitalize()} has " +
+                  f"the lowest GPA being {target_student['GPA']}. They don't take the bus and their teacher is " +
+                  f"{target_student['TLastName'].capitalize()} {target_student['TFirstName'].capitalize()}")
         else:
-            print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} has " +
-                  f"the lowest GPA being {student['GPA']}. They take bus route {student['Bus']} and their teacher is " +
-                  f"{student['TLastName'].capitalize()} {student['TFirstName'].capitalize()}")
+            print(f"{target_student['StLastName'].capitalize()} {target_student['StFirstName'].capitalize()} has " +
+                  f"the lowest GPA being {student['GPA']}. They take bus route {target_student['Bus']} and their teacher is " +
+                  f"{target_student['TLastName'].capitalize()} {target_student['TFirstName'].capitalize()}")
     else:
         for student in desired_students:
             print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()}")
@@ -160,14 +164,6 @@ def option_a(data, grade):
 Calculates number of students in each grade
 """
 def option_i(data):
-    
-    grade_0 = 0
-    grade_1 = 0
-    grade_2 = 0
-    grade_3 = 0
-    grade_4 = 0
-    grade_5 = 0
-    grade_6 = 0
 
     grade_list = {
         "Kindergarten" : 0,
@@ -200,6 +196,7 @@ def option_i(data):
 
     for i in range(7):
         print(f"{sorted_students[i]}: {grade_list[sorted_students[i]]} students")
+        
 
 
 def show_options():
@@ -215,28 +212,95 @@ def show_options():
 def menu():
 
     data = get_data()
-    option_s(data, "HAVIR")
+    # option_s(data, "HAVIR")
 
     while True:
         show_options()
-        user_request = input()
+        input_string = input("\nEnter command: ")
+        user_args = input_string.split()
         # S: CORKER 
 
-        match user_request:
-            case "S: " in user_request | "Student":
-                pass
-            case "T":
-                pass
-            case "B":
-                pass
-            case "G":
-                pass
-            case "A":
-                pass
-            case "I":
-                pass
-            case "Q":
-                pass
+        match user_args[0]:
+            case "S:" | "Student:":
+                
+                if (len(user_args) == 1):
+                    print("\nInvalid input.")
+                    continue
+                elif (len(user_args) == 2):
+                    print("")
+                    option_s(data, user_args[1])
+                elif (len(user_args) == 3) and (user_args[2] == "B" or user_args[2] == "Bus"):
+                    print("")
+                    option_s(data, user_args[1], True)
+                else:
+                    print("\nInvalid input.")
+                    continue
+
+            case "T:" | "Teacher:":
+
+                if (len(user_args) == 1):
+                    print("\nInvalid Input.")
+                    continue
+                elif (len(user_args) == 2):
+                    print("")
+                    option_t(data, user_args[1])
+                else:
+                    print("\nInvalid Input.")
+                    continue
+                
+            case "B:" | "Bus:":
+                
+                if (len(user_args) == 1):
+                    print("\nInvalid Input.")
+                    continue
+                elif (len(user_args) == 2):
+                    print("")
+                    option_b(data, user_args[1])
+
+            case "G:" | "Grade:":
+                
+                if (len(user_args) == 1):
+                    print("\nInvalid Input")
+                    continue
+                elif (len(user_args) == 2):
+                    print("")
+                    option_g(data, user_args[1])
+                elif (len(user_args) == 3):
+                    print("")
+                    option_g(data, user_args[1], user_args[2])
+                else:
+                    print("\nInvalid Input.")
+                    continue
+
+            case "A:" | "Average:":
+
+                if (len(user_args) == 1):
+                    print("\nInvalid Input")
+                    continue
+                elif (len(user_args) == 2):
+                    print("")
+                    option_a(data, user_args[1])
+                else:
+                    print("\nInvalid Input.")
+                    continue
+
+            case "I" | "Info":
+                
+                if (len(user_args) != 1):
+                    print("\nInvalid Input.")
+                    continue
+                else:
+                    option_i(data)
+
+            case "Q" | "Quit":
+
+                print("\nProgram exiting.")
+                break
+
+            case _:
+
+                print("\nInvalid choice.")
+                continue
 
 
 
