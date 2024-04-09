@@ -25,7 +25,7 @@ def get_data():
 Given a student's last name, find the student's grade, classroom and teacher
 If there is more than one student with the same last name, find this information for all students
 """
-def option_s(data, last_name):
+def option_s(data, last_name, bus = None):
 
     desired_students = []
     for entry in data:
@@ -34,7 +34,6 @@ def option_s(data, last_name):
             # print("found")
             desired_students.append(entry)
 
-    print(desired_students)
     for student in desired_students:
         rides_bus = None   
         k = None
@@ -49,42 +48,159 @@ def option_s(data, last_name):
         else:
             rides_bus = True
         
-        print(f"{student['StFirstName'].capitalize()} {student['StLastName'].capitalize()}, who ", end = "")        
+        print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()}, ", end = "")        
         
-        if (rides_bus == True):
-            print(f"takes bus route {student['Bus']}, is a ", end = "")
+        if (bus != None):
+            if (rides_bus):
+                print(f"bus route {student['Bus']}.")
+            else:
+                print("does not take the bus.")
         else:
-            print("does not take the bus, is a ", end = "")
-        
-        if (k == True):
-            print(f"kindergarten ", end = "")
+            if (k == True):
+                print(f"who is a kindergarten ", end = "")
+            else:
+                print(f"who is a grade {student['Grade']} ", end = "")
+
+            print(f"student assigned to the class of {student['TFirstName'].capitalize()} " +
+                f"{student['TLastName'].capitalize()} in the classroom {student['Classroom']}. ") 
+
+"""
+Searches and finds all students who have the teacher with the desired last name
+"""
+def option_t(data, last_name):
+
+    desired_students = []
+    for entry in data:
+        if entry["TLastName"] == last_name:
+            desired_students.append(entry)
+
+    for student in desired_students:
+        print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()}")
+
+"""
+searches and finds all students taking specified bus route
+"""
+def option_b(data, route):
+
+    desired_students = []
+    for entry in data:
+        if entry['Bus'] == route:
+            desired_students.append(entry)
+
+    for student in desired_students:
+        print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} ", end = "")
+        if student['Grade'] == 0:
+            print("kindergarten, ", end = "")
         else:
-            print(f"grade {student['Grade']} ", end = "")
+            print(f"classroom {student['Classroom']}.")
 
-        print(f"student assigned to the class of {student['TFirstName'].capitalize()} " +
-              f"{student['TLastName'].capitalize()} in the classroom {student['Classroom']}. " + 
-              f"{student['StFirstName'].capitalize()} has a GPA of {student['GPA']}.")
+"""
+searches and finds all students in specified grade level
+"""
+def option_g(data, grade, high_low):
 
+    desired_students = []
+    for entry in data:
+        if entry['Grade'] == grade:
+            desired_students.append(entry)
 
+    if high_low == "H":
+        highest = 0
+        for student in desired_students:
+            if student['GPA'] > highest:
+                highest = student['GPA']
+        if student['Bus'] == "0":
+            print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} has " +
+                  f"the highest GPA being {student['GPA']}. They don't take the bus and their teacher is " +
+                  f"{student['TLastName'].capitalize()} {student['TFirstName'].capitalize()}")
+        else:
+            print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} has " +
+                  f"the highest GPA being {student['GPA']}. They take bus route {student['Bus']} and their teacher is " +
+                  f"{student['TLastName'].capitalize()} {student['TFirstName'].capitalize()}")
+    elif high_low == "L":
+        lowest = 5
+        for student in desired_students:
+            if student['GPA'] < lowest:
+                highest = student['GPA']
+        if student['Bus'] == "0":
+            print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} has " +
+                  f"the lowest GPA being {student['GPA']}. They don't take the bus and their teacher is " +
+                  f"{student['TLastName'].capitalize()} {student['TFirstName'].capitalize()}")
+        else:
+            print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} has " +
+                  f"the lowest GPA being {student['GPA']}. They take bus route {student['Bus']} and their teacher is " +
+                  f"{student['TLastName'].capitalize()} {student['TFirstName'].capitalize()}")
+    else:
+        for student in desired_students:
+            print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()}")
+
+"""
+Computes average GPA for specified grade
+"""
+def option_a(data, grade):
+
+    desired_students = []
+    for entry in data:
+        if entry['Grade'] == grade:
+            desired_students.append(entry)
+
+    total = 0
+    for student in desired_students:
+        total += float(student['GPA'])
     
+    avg = total / len(desired_students)
 
-def option_t():
-    pass
+    if grade == "0":
+        print(f"The average GPA for kindergarten was {avg}.")
+    else:
+        print(f"The average GPA for grade {grade} was {avg}.")
 
-def option_b():
-    pass
 
-def option_g():
-    pass
+"""
+Calculates number of students in each grade
+"""
+def option_i(data):
+    
+    grade_0 = 0
+    grade_1 = 0
+    grade_2 = 0
+    grade_3 = 0
+    grade_4 = 0
+    grade_5 = 0
+    grade_6 = 0
 
-def option_a():
-    pass
+    grade_list = {
+        "Kindergarten" : 0,
+        "Grade 1" : 0,
+        "Grade 2" : 0,
+        "Grade 3" : 0,
+        "Grade 4" : 0,
+        "Grade 5" : 0,
+        "Grade 6" : 0
+    }
 
-def option_i():
-    pass
+    for student in data:
+        match student['Grade']:
+            case "0":
+                grade_list['Kindergarten'] += 1
+            case "1":
+                grade_list['Grade 1'] += 1
+            case "2":
+                grade_list['Grade 2'] += 1
+            case "3":
+                grade_list['Grade 3'] += 1
+            case "4":
+                grade_list['Grade 4'] += 1
+            case "5":
+                grade_list['Grade 5'] += 1
+            case "6":
+                grade_list['Grade 6'] += 1
+    
+    sorted_students = sorted(grade_list, key = lambda x:grade_list[x])
 
-def option_q():
-    pass
+    for i in range(7):
+        print(f"{sorted_students[i]}: {grade_list[sorted_students[i]]} students")
+
 
 def show_options():
     print("")
@@ -99,10 +215,36 @@ def show_options():
 def menu():
 
     data = get_data()
-    option_s(data, "KREESE")
+    option_s(data, "HAVIR")
+
+    while True:
+        show_options()
+        user_request = input()
+        # S: CORKER 
+
+        match user_request:
+            case "S: " in user_request | "Student":
+                pass
+            case "T":
+                pass
+            case "B":
+                pass
+            case "G":
+                pass
+            case "A":
+                pass
+            case "I":
+                pass
+            case "Q":
+                pass
 
 
 
+"""
 
+the test file is a text file of what your expected outputs are and then
+the output file is a text file of you copy and pasting the actual outputs of your functions
+
+"""
 
 menu()
