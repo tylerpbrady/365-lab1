@@ -1,0 +1,211 @@
+// CSC 365
+// Lab 1
+
+// Test 1
+// Covers R4
+// Shortened command, student exists, no bus
+// Expected output: Werst Leon, who is a grade 6 student assigned to the class of Nancy Nistendirk in the classroom 111.
+
+S: WERST
+
+
+// Test 2
+// Covers R4
+// Full command, student exists, no bus
+// Expected output: Werst Leon, who is a grade 6 student assigned to the class of Nancy Nistendirk in the classroom 111.
+
+Student: WERST
+
+
+// Test 3
+// Covers R5
+// Shortened command, student exists, yes bus (short)
+// Expected output: Werst Leon, bus route 55.
+
+S: WERST B
+
+// Test 4
+// Covers R5
+// Shortened command, student exists, yes bus (long)
+// Expected output: Werst Leon, bus route 55.
+
+S: WERST Bus
+
+
+// Test 5
+// Covers R4
+// Shortened command, student DOESN'T exists, no bus
+// Expected output: No Student found.
+
+S: XYZ
+
+
+// Test 6
+// Covers R6
+// Shortened command, teacher exists
+// Expected output: Racanello Noel
+                    Coronado Dimple
+                    Boyter Wan
+                    Kemerer Rosetta
+                    Demartini Dewayne
+
+T: KERBS
+
+
+// Test 7
+// Covers R6
+// Long command, teacher exists
+// Expected output: Racanello Noel
+                    Coronado Dimple
+                    Boyter Wan
+                    Kemerer Rosetta
+                    Demartini Dewayne
+
+Teacher: KERBS
+
+// Test 8
+// Covers R6
+// Shortened command, teacher DOESN'T exists
+// Expected output: Either this teacher doesn't exist or they do not teach any students.
+
+T: XYZ
+
+
+// Test 9
+// Covers R7
+// Shortened command
+// Expected output: Saelee Danilo
+                    Garth John
+
+G: 1
+
+// Test 10
+// Covers R7
+// Long command
+// Expected output: Saelee Danilo
+                    Garth John
+
+Grade: 1
+
+// Test 11
+// Covers R7
+// Shortened command, no students found
+// Expected output: No students found.
+
+G: 5
+
+// Test 12
+// Covers R8
+// Shortened command
+// Expected output: Cookus Xuan grade 3, classroom 107.
+                    Elhaddad Shante grade 3, classroom 107.
+                    Immerman Devin grade 4, classroom 105.
+                    Obrein Stan grade 6, classroom 111.
+                    Coronado Dimple grade 6, classroom 102.
+                    Sarao Diedra grade 2, classroom 108.
+                    Early Tory grade 3, classroom 107.
+                    Kemerer Rosetta grade 6, classroom 102.
+
+B: 52
+
+// Test 13
+// Covers R8
+// Long command
+// Expected output: Cookus Xuan grade 3, classroom 107.
+                    Elhaddad Shante grade 3, classroom 107.
+                    Immerman Devin grade 4, classroom 105.
+                    Obrein Stan grade 6, classroom 111.
+                    Coronado Dimple grade 6, classroom 102.
+                    Sarao Diedra grade 2, classroom 108.
+                    Early Tory grade 3, classroom 107.
+                    Kemerer Rosetta grade 6, classroom 102.
+
+Bus: 52
+
+
+// Test 14
+// Covers R8
+// Shortened command, no students found
+// Expected output: No students found
+
+B: 124
+
+
+// Test 15
+// Covers R9
+// Including H 
+// Expected output: Swedlund Sharri has the highest GPA being 3.24. They take bus route 55 and their teacher is Fafard Rocio
+
+G: 3 H
+
+
+// Test 16
+// Covers R9
+// Including L
+// Expected output: Ciganek Manie has the lowest GPA being 2.79. They take bus route 53 and their teacher is Fafard Rocio
+
+G: 3 L
+
+
+// Test 17
+// Covers R10
+// Shortened command
+// Expected output: The average GPA for grade 3 was 3.05.
+
+A: 3
+
+// Test 18
+// Covers R10
+// Long command
+// Expected output: The average GPA for grade 3 was 3.05.
+
+Average: 3
+
+// Test 19
+// Covers R10
+// Shortened command, no students found
+// Expected output: No students to find average for.
+
+A: 12
+
+// Test 20
+// Covers R11
+// Shortened command
+// Expected output: Kindergarten: 0 students.
+                    Grade 1: 2 students.
+                    Grade 2: 13 students.
+                    Grade 3: 9 students.
+                    Grade 4: 15 students.
+                    Grade 5: 0 students.
+                    Grade 6: 21 students.
+
+I
+
+
+// Test 21
+// Covers R11
+// Long command
+// Expected output: Kindergarten: 0 students.
+                    Grade 1: 2 students.
+                    Grade 2: 13 students.
+                    Grade 3: 9 students.
+                    Grade 4: 15 students.
+                    Grade 5: 0 students.
+                    Grade 6: 21 students.
+
+Info
+
+
+// Test 22
+// Covers R12
+// Shortened command
+// Expected output: The program exits
+
+Q
+
+// Test 23
+// Covers R12
+// Long command
+// Expected output: The program exits
+
+Quit

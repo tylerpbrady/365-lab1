@@ -3,7 +3,7 @@ import sys
 
 def get_data():
     try: 
-        with open("studnts.txt", "r") as file:
+        with open("students.txt", "r") as file:
             data = file.read()
             list = data.split("\n")
             list.pop()
@@ -36,6 +36,10 @@ def option_s(data, last_name, bus = None):
         if entry["StLastName"] == last_name:
             # print("found")
             desired_students.append(entry)
+
+    if len(desired_students) == 0:
+        print("No Student found.")
+        return
 
     for student in desired_students:
         rides_bus = None   
@@ -77,6 +81,9 @@ def option_t(data, last_name):
         if entry["TLastName"] == last_name:
             desired_students.append(entry)
 
+    if len(desired_students) == 0:
+        print("Either this teacher doesn't exist or they do not teach any students.")
+
     for student in desired_students:
         print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()}")
 
@@ -89,6 +96,9 @@ def option_b(data, route):
     for entry in data:
         if entry['Bus'] == route:
             desired_students.append(entry)
+
+    if len(desired_students) == 0:
+        print("No students found.")
 
     for student in desired_students:
         print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} ", end = "")
