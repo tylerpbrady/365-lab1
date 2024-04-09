@@ -2,25 +2,28 @@ import sys
 
 
 def get_data():
-    with open("students.txt", "r") as file:
-        data = file.read()
-        list = data.split("\n")
-        list.pop()
-        students = []
-        for thing in list:
-            atr_list = thing.split(",")
-            entry = {"StLastName" : atr_list[0],
-                     "StFirstName" : atr_list[1],
-                     "Grade" : atr_list[2],
-                     "Classroom" : atr_list[3],
-                     "Bus" : atr_list[4],
-                     "GPA" : atr_list[5],
-                     "TLastName" : atr_list[6],
-                     "TFirstName" : atr_list[7]}
-            students.append(entry)
+    try: 
+        with open("studnts.txt", "r") as file:
+            data = file.read()
+            list = data.split("\n")
+            list.pop()
+            students = []
+            for thing in list:
+                atr_list = thing.split(",")
+                entry = {"StLastName" : atr_list[0],
+                        "StFirstName" : atr_list[1],
+                        "Grade" : atr_list[2],
+                        "Classroom" : atr_list[3],
+                        "Bus" : atr_list[4],
+                        "GPA" : atr_list[5],
+                        "TLastName" : atr_list[6],
+                        "TFirstName" : atr_list[7]}
+                students.append(entry)
 
-        return students        
-
+            return students        
+    except:
+        print("\nError finding file.\n")
+        exit()
 """
 Given a student's last name, find the student's grade, classroom and teacher
 If there is more than one student with the same last name, find this information for all students
@@ -90,9 +93,9 @@ def option_b(data, route):
     for student in desired_students:
         print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()} ", end = "")
         if student['Grade'] == 0:
-            print("kindergarten, ", end = "")
+            print(f"kindergarten, classroom {student['Classroom']}")
         else:
-            print(f"classroom {student['Classroom']}.")
+            print(f"grade {student['Grade']}, classroom {student['Classroom']}.")
 
 """
 searches and finds all students in specified grade level
@@ -102,6 +105,7 @@ def option_g(data, grade, high_low = None):
     desired_students = []
     for entry in data:
         if entry['Grade'] == grade:
+            # print(entry['GPA'])
             desired_students.append(entry)
 
     if high_low == "H":
@@ -124,20 +128,22 @@ def option_g(data, grade, high_low = None):
         target_student = desired_students[0]
         for student in desired_students:
             if float(student['GPA']) < lowest:
-                highest = float(student['GPA'])
+                lowest = float(student['GPA'])
                 target_student = student
-        if student['Bus'] == "0":
+        if target_student['Bus'] == "0":
             print(f"{target_student['StLastName'].capitalize()} {target_student['StFirstName'].capitalize()} has " +
                   f"the lowest GPA being {target_student['GPA']}. They don't take the bus and their teacher is " +
                   f"{target_student['TLastName'].capitalize()} {target_student['TFirstName'].capitalize()}")
         else:
             print(f"{target_student['StLastName'].capitalize()} {target_student['StFirstName'].capitalize()} has " +
-                  f"the lowest GPA being {student['GPA']}. They take bus route {target_student['Bus']} and their teacher is " +
+                  f"the lowest GPA being {target_student['GPA']}. They take bus route {target_student['Bus']} and their teacher is " +
                   f"{target_student['TLastName'].capitalize()} {target_student['TFirstName'].capitalize()}")
     else:
-        for student in desired_students:
-            print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()}")
-
+        if len(desired_students) != 0:
+            for student in desired_students:
+                print(f"{student['StLastName'].capitalize()} {student['StFirstName'].capitalize()}")
+        else:
+            print("No students found.")
 """
 Computes average GPA for specified grade
 """
@@ -148,6 +154,10 @@ def option_a(data, grade):
         if entry['Grade'] == grade:
             desired_students.append(entry)
 
+    if len(desired_students) == 0:
+        print("No students to find average for.")
+        return
+
     total = 0
     for student in desired_students:
         total += float(student['GPA'])
@@ -155,9 +165,9 @@ def option_a(data, grade):
     avg = total / len(desired_students)
 
     if grade == "0":
-        print(f"The average GPA for kindergarten was {avg}.")
+        print(f"The average GPA for kindergarten was {round(avg, 2)}.")
     else:
-        print(f"The average GPA for grade {grade} was {avg}.")
+        print(f"The average GPA for grade {grade} was {round(avg, 2)}.")
 
 
 """
@@ -193,9 +203,11 @@ def option_i(data):
                 grade_list['Grade 6'] += 1
     
     sorted_students = sorted(grade_list, key = lambda x:grade_list[x])
-
-    for i in range(7):
-        print(f"{sorted_students[i]}: {grade_list[sorted_students[i]]} students")
+    keys = grade_list.keys()
+    # for i in range(7):
+    #     print(f"{grade_list[i]}: {grade_list[str(i)]} students")
+    for key in grade_list.keys():
+        print(f"{key}: {grade_list[key]} students.")
         
 
 
@@ -290,6 +302,7 @@ def menu():
                     print("\nInvalid Input.")
                     continue
                 else:
+                    print("")
                     option_i(data)
 
             case "Q" | "Quit":
@@ -312,3 +325,13 @@ the output file is a text file of you copy and pasting the actual outputs of you
 """
 
 menu()
+
+"""
+
+S - done
+T - done
+B - done
+G - done
+A - done
+
+"""
